@@ -35,7 +35,10 @@ class GameService:
         result = secrets.choice(["heads", "tails"])
         winner = p1 if result == choice else p2
 
-        self.update_elo(p1, p2, winner)
+        self.update_player_ratings(p1, p2, winner)
+
+        PlayerDao().update(p1)
+        PlayerDao().update(p2)
 
         return {
             "player1": p1.username,
@@ -46,44 +49,44 @@ class GameService:
             "new_elo2": p2.elo,
         }
 
-    def expected_score(self, elo1, elo2):
-        """Calculates the expected score (probability of winning) using the Elo formula.
+    @classmethod
+    def calculate_expected_score(cls, elo_a, elo_b) -> float:
+        """Calculates the probability of player A winning against player B.
         Args:
-            elo1 (float): The current Elo rating of player 1.
-            elo2 (float): The current Elo rating of player 2.
+            elo_a (float): The current Elo rating of first player.
+            elo_b (float): The current Elo rating of second player.
 
         Returns:
             float: The expected score for player 1 (between 0 and 1).
         """
-        return 1 / (1 + 10 ** ((elo2 - elo1) / 400))
+        return 1 / (1 + 10 ** ((elo_b - elo_a) / 400))
 
-    def compute_elo(self, elo1, elo2, win1):
+    @classmethod
+    def calculate_new_ratings(cls, elo_a, elo_b, player_a_won: bool) -> tuple[int, int]:
         """Computes the new Elo ratings for two players after a match.
         Args:
-            elo1 (int): Current Elo of player 1.
-            elo2 (int): Current Elo of player 2.
-            win1 (bool): True if player 1 won, False if player 2 won.
+            elo_a (float): Current Elo of player 1.
+            elo_b (float): Current Elo of player 2.
+            player_a_won (bool): True if player 1 won, False if player 2 won.
         Returns:
             tuple[int, int]: A tuple containing (new_elo1, new_elo2).
         """
-        K_FACTOR = int(os.environ["ELO_K_FACTOR"])
+        k_factor = int(os.environ["ELO_K_FACTOR"])
 
-        s1, s2 = win1 * 1, 1 - win1 * 1
+        score_a = 1.0 if player_a_won else 0.0
+        score_b = 1.0 - score_a
 
-        new_elo1 = round(elo1 + K_FACTOR * (s1 - self.expected_score(elo1, elo2)))
-        new_elo2 = round(elo2 + K_FACTOR * (s2 - self.expected_score(elo2, elo1)))
+        new_elo_a = round(elo_a + k_factor * (score_a - cls.calculate_expected_score(elo_a, elo_b)))
+        new_elo_b = round(elo_b + k_factor * (score_b - cls.calculate_expected_score(elo_b, elo_a)))
 
-        return new_elo1, new_elo2
+        return new_elo_a, new_elo_b
 
-    def update_elo(self, player1, player2, winner):
-        """Calculates and persists the new Elo ratings for both players.
-        Args:
-            player1 (Player): The first Player object.
-            player2 (Player): The second Player object.
-            winner (Player): The Player who won the match.
+    @classmethod
+    def update_player_ratings(cls, p1, p2, winner):
+        """Calculates and updates the elo attributes of the players.
+        No update if there is no winner (Draw).
         """
+        if not winner:
+            return
 
-        player1.elo, player2.elo = self.compute_elo(player1.elo, player2.elo, player1 == winner)
-
-        PlayerDao().update(player1)
-        PlayerDao().update(player2)
+        p1.elo, p2.elo = cls.calculate_new_ratings(p1.elo, p2.elo, player_a_won=(p1 == winner))
