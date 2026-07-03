@@ -40,7 +40,7 @@ class GameService:
         return {
             "player1": p1.username,
             "player2": p2.username,
-            "result": result,
+            "description": result,
             "winner": winner.username,
             "new_elo1": p1.elo,
             "new_elo2": p2.elo,

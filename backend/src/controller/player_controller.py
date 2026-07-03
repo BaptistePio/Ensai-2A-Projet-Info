@@ -97,7 +97,7 @@ async def update_player(id_player: int, p: PlayerModel, player_service=Depends(g
     if not player:
         raise HTTPException(status_code=500, detail="Error while updating player.")
 
-    return f"Player {p.username} updated"
+    return player
 
 
 @router.delete("/{id_player}", tags=["Players"])

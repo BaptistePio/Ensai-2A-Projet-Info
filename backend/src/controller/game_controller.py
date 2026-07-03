@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from schema.game_model import GamePlayModel
+from schema.game_model import GamePlayModel, GameResponse
 from service.game_service import GameService
 from utils.log_utils import get_logger
 from utils.security import verify_token
@@ -15,7 +15,7 @@ def get_game_service():
     return GameService()
 
 
-@router.post("/", tags=["Games"], response_model=dict)
+@router.post("/", response_model=GameResponse, tags=["Games"])
 def play_game(
     req: GamePlayModel, game_service=Depends(get_game_service), current_player=Depends(verify_token)
 ):
@@ -31,4 +31,13 @@ def play_game(
         HTTPException: 401 if unauthenticated, 400 if invalid request.
     """
     logger.info("Play a game")
-    return game_service.play(current_player.id_player, req.id_opponent, req.choice)
+    res = game_service.play(current_player.id_player, req.id_opponent, **req.params)
+
+    return GameResponse(
+        username1=res["player1"],
+        username2=res["player2"],
+        description=res["description"],
+        winner=res["winner"],
+        new_elo1=res["new_elo1"],
+        new_elo2=res["new_elo2"],
+    )

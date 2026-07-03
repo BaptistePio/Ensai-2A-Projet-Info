@@ -30,17 +30,17 @@ if response["status_code"] != 200:
     st.stop()
 
 players = response["data"]
-adversaires = [
+opponents = [
     j for j in players if j["id_player"] != player["id_player"] and j["username"] != "admin"
 ]
 
-if not adversaires:
+if not opponents:
     st.warning("No opponents available")
     st.stop()
 
-adversaire = st.selectbox("Choose an opponent", adversaires, format_func=lambda j: j["username"])
+opponent = st.selectbox("Choose an opponent", opponents, format_func=lambda j: j["username"])
 
-genre = st.radio("Heads or Tails", ["heads", "tails"])
+bet = st.radio("Heads or Tails", ["heads", "tails"])
 
 if st.button("Play"):
     logger.info("Play a game")
@@ -50,8 +50,9 @@ if st.button("Play"):
     response = api_client.post(
         "/game/",
         json={
-            "id_opponent": adversaire["id_player"],
-            "choice": genre,
+            "id_opponent": opponent["id_player"],
+            "game_mode": "coinflip",
+            "params": {"choice": bet},
         },
     )
 
@@ -61,13 +62,15 @@ if st.button("Play"):
 
     data = response["data"]
 
-    st.write(f"Result : **{data['result']}**")
+    st.write(f"Result: **{data['description']}**")
 
     if data["winner"] == player["username"]:
         st.success(f"""🎉 **You win!**\n\nYour new Elo rating is {data["new_elo1"]}""")
         st.balloons()
-    else:
+    elif data["winner"] == opponent["username"]:
         st.warning(f"""😢 **You lose**\n\nYour new Elo rating is {data["new_elo1"]}""")
+    else:
+        st.info("Draw, no change in Elo rating")
 
     logger.info("Game is over")
 

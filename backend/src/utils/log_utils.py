@@ -98,6 +98,8 @@ def log(func):
         args_list = []
 
         for i, arg in enumerate(args[1:]):
+            if i >= len(param_names):
+                break
             param_name = param_names[i].lower()
             if any(keyword in param_name for keyword in SENSITIVE_KEYWORDS):
                 args_list.append("*****")
