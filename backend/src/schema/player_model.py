@@ -1,4 +1,6 @@
-from pydantic import BaseModel, EmailStr, Field
+import os
+
+from pydantic import BaseModel, EmailStr, field_validator
 
 
 class PlayerModel(BaseModel):
@@ -9,10 +11,18 @@ class PlayerModel(BaseModel):
 
     id_player: int | None = None
     username: str
-    password: str = Field(..., min_length=35)
+    password: str
     elo: int
     email: EmailStr
     pokemon_fan: bool
+
+    @field_validator("password")
+    @classmethod
+    def check_password_length(cls, v: str) -> str:
+        min_len = int(os.getenv("PASSWORD_MIN_LENGTH", 12))
+        if len(v) < min_len:
+            raise ValueError(f"Password must be at least {min_len} characters long")
+        return v
 
 
 class PlayerReadModel(BaseModel):
