@@ -1,6 +1,7 @@
 from business_object.game_mode import GameMode
 from business_object.player import Player
 
+
 class GameModeFactory:
 
     @classmethod

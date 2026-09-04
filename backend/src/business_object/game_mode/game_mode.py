@@ -1,11 +1,12 @@
 from abc import abstractmethod
 from business_object.player import Player
+from service.game_service import GameService
 
 class GameMode:
 
     @abstractmethod
     def play(player_1: Player, player_2: Player):
-        return
+        partie  = GameService.play(player_1, player_2)
 
     def dicemode(P1, P2, score_P1, score_P2):
         partie = GameMode.play(P1, P2)
