@@ -1,14 +1,23 @@
 from abc import abstractmethod
-import os
-import secrets
+from business_object.player import Player
 
-from fastapi import HTTPException
+class GameMode:
 
-from dao.player_dao import PlayerDao
-from utils.log_utils import log
+    @abstractmethod
+    def play(player_1: Player, player_2: Player):
+        return
 
+    def dicemode(P1, P2, score_P1, score_P2):
+        partie = GameMode.play(P1, P2)
+        if score_P1 < score_P2:
+            winner = P1
+        elif score_P1 > score_P2:
+            winneur = P2
+        else:
+            winner = None
+        return winner
 
-class GameService:
+    class GameService:
     """Service that manages games."""
 
     @log
