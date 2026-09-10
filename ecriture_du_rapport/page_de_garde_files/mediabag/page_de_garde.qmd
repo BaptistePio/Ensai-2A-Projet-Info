@@ -1,0 +1,104 @@
+---
+format: 
+  pdf:
+    documentclass: report
+    pdf-engine: xelatex
+    mainfont: "TeX Gyre Termes"
+    include-in-header:
+      text: |
+        \usepackage{adjustbox}
+        \usepackage{enumitem}
+        \setlist[itemize]{label=$\bullet$}
+        \usepackage{titlesec}
+        \usepackage{xcolor}
+        \usepackage{parskip}
+        \usepackage{float}
+        \floatplacement{figure}{H}
+        \floatplacement{table}{H}
+        \usepackage{indentfirst}
+        % -----------------------------------------------
+        % Couleurs
+        % -----------------------------------------------
+        \definecolor{couleurPartie}{RGB}{0, 0, 0}
+        \definecolor{couleurSousPartie}{RGB}{0, 0, 0}
+        \definecolor{couleurSSPartie}{RGB}{0, 0, 0}
+        \definecolor{couleurSpecial}{RGB}{0, 0, 0}
+        % -----------------------------------------------
+        % Sections
+        % -----------------------------------------------
+        \titleformat{\section}
+          {\fontsize{14}{18}\selectfont\bfseries\color{couleurPartie}}
+          {\thesection}{1em}{}
+        \titlespacing{\section}{0pt}{12pt}{4pt}
+        \titleformat{\subsection}
+          {\fontsize{12}{15}\selectfont\bfseries\color{couleurSousPartie}}
+          {\thesubsection}{1em}{}
+        \titlespacing{\subsection}{0pt}{10pt}{3pt}
+        \titleformat{\subsubsection}
+          {\fontsize{11}{14}\selectfont\bfseries\color{couleurSSPartie}}
+          {\thesubsubsection}{1em}{}
+        \titlespacing{\subsubsection}{0pt}{8pt}{2pt}
+        % -----------------------------------------------
+        % Sections non numérotées
+        % -----------------------------------------------
+        \titleformat{name=\section, numberless}
+          {\fontsize{16}{20}\selectfont\bfseries\color{couleurSpecial}}
+          {}{0em}{}
+        \titlespacing{name=\section, numberless}{0pt}{12pt}{4pt}
+        % -----------------------------------------------
+        % Paragraphes
+        % -----------------------------------------------
+        \setlength{\parindent}{1.5em}
+        \setlength{\parskip}{0pt}
+lang: fr
+fontsize: 12pt
+papersize: a4
+geometry: top=1.5cm, bottom=1.5cm, left=2.5cm, right=2.5cm
+link-citations: true 
+nocite: "@*"
+editor: 
+  markdown: 
+    wrap: sentence
+execute:
+  echo: false
+  warning: false
+  message: false
+
+---
+
+\begin{titlepage}
+\centering
+
+\includegraphics{ensai_logo_1.png}\\
+\vspace{1.0cm}
+
+{\LARGE\textsc{Projet d'informatique}}\\
+\vspace{0.5cm}
+{\large Élèves 2A}
+
+\vspace{2.5cm}
+
+\rule{\textwidth}{0.5mm}\\
+\vspace{0.8cm}
+{\huge\bfseries titre du rapport
+}\\
+\vspace{0.8cm}
+\rule{\textwidth}{0.5mm}\\
+
+\vspace{2.5cm}
+
+\begin{flushleft}
+\emph{Étudiant:}\\
+nom des étudiants
+\end{flushleft}
+
+\begin{flushright}
+\emph{Tuteur/encadrants :}\\
+\end{flushright}
+
+\vfill 
+\begin{center}
+École nationale de la statistique et de l’analyse de l’information\\
+2026--2027
+\end{center}
+\end{titlepage}
