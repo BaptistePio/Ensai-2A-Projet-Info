@@ -36,3 +36,13 @@ class PlayerReadModel(BaseModel):
 class PlayerLoginModel(BaseModel):
     username: str
     password: str
+
+from pydantic import BaseModel, EmailStr, Field
+
+class PlayerModel(BaseModel):
+    id_player: int | None = None
+    username: str
+    password: str = Field(..., min_length=35)
+    elo: int
+    email: EmailStr
+    pokemon_fan: bool

@@ -20,3 +20,11 @@ print(g2)
 
 print(f"{g2.player1.username} : new elo -> {g2.player1.elo}")
 print(f"{g2.player2.username} : new elo -> {g2.player2.elo}")
+
+from client.game_client import GameClient  # noqa: E402
+
+client = GameClient()
+games = client.get_games()
+print(f"{len(games)} games loaded:")
+for g in games:
+    print(f"- {g}")

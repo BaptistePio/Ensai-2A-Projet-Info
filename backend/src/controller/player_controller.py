@@ -118,3 +118,14 @@ async def delete_player(id_player: int, player_service=Depends(get_player_servic
 
     player_service.delete(player)
     return f"Player {player.username} deleted"
+
+@app.get("/players/{id_player}/games", response_model=list[GameModel])
+def get_games(id_player, service: game_service=Depends(get_game_service)):
+    if id_player is None:
+        raise "le joueur n'a pas d'id"
+    return id_player
+
+@router.post("/", tags=["Players"])
+async def create_player(p: PlayerModel, player_service=Depends(get_player_service)):
+    # ...
+    player = player_service.create(p.username, p.password, p.elo, p.email, p.pokemon_fan)
