@@ -20,7 +20,7 @@ logger = get_page_logger("create_player")
 username = st.text_input("Username", max_chars=30)
 password = st.text_input("Password", type="password")
 
-password_min_length = int(os.environ["PASSWORD_MIN_LENGTH"])
+password_min_length = 5
 
 is_pwd_long_enough = len(password) >= password_min_length
 st.write("✅" if is_pwd_long_enough else "❌", f"At least {password_min_length} characters")
