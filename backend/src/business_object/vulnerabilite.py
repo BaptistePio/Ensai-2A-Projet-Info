@@ -1,31 +1,31 @@
-from severite import Severite
+from package import Package
 from risque import Risque
-from Package import Package
+from severite import Severite
+
 
 class Vulnerabilite:
-    def __init__(self, id_CVE, packages, description, risque, severite, version_corrigée):
+    def __init__(self, id_CVE, packages: list[Package], description, risque: Risque, severite: Severite, version_corrigée):
         self.id_CVE = id_CVE
-        self.packages = []
+        self.packages = packages
         self.description = description
         self.risque = risque
-        self.severite = serverite
+        self.severite = severite
 
     @staticmethod
     def nb_vulnerabilites_critiques(vulnerabilites):
+        return sum(1 for v in vulnerabilites if v.severite.niveau_severite.upper() == "CRITICAL")
 
-        return sum(1
-        for v in vulnerabilites
-        if v.severite.niveau_severite == "CRITICAL"
-            )
-
+    @staticmethod
     def nb_vulnerabilites_fortes(vulnerabilites):
-        return sum(1 for v in vulnerabilites
-        if v.severite.niveau_severite == "HIGH")
+        return sum(1 for v in vulnerabilites if v.severite.niveau_severite.upper() == "HIGH")
 
+    @staticmethod
     def nb_vulnerabilites_faibles(vulnerabilites):
-        return sum(1 for v in vulnerabilites
-        if v.severite.niveau_severite == "LOW")
+        return sum(1 for v in vulnerabilites if v.severite.niveau_severite.upper() == "LOW")
 
-    def nb_vulnerabilites_moyennes():
-        return sum(1 for v in vulnerabilities
-        if v.severite.niveau_severite == "MEDIUM")
+    @staticmethod
+    def nb_vulnerabilites_moyennes(vulnerabilites):
+        return sum(1 for v in vulnerabilites if v.severite.niveau_severite.upper() == "MEDIUM")
+
+    def score_vulnerabilites(self):
+        return sum(v.risque.score_risque()+ v.severite.score_severite() for v in self.vulnerabilites)
