@@ -1,12 +1,8 @@
-"""AnalyseurRecursion : détecte les fonctions qui s'appellent elles-mêmes
-(récursion directe uniquement), via ast.NodeVisitor.
-"""
-
 import ast
 
 
 class AnalyseurRecursion(ast.NodeVisitor):
-    """Détecte la récursion directe (une fonction qui s'appelle elle-même).
+    """Détecte la récursion directe, via ast.NodeVisitor.
 
     Limite : seule la récursion DIRECTE est détectée. La récursion
     indirecte n'est pas détectée, car cela nécessiterait de
@@ -23,7 +19,15 @@ class AnalyseurRecursion(ast.NodeVisitor):
         Mémorise le nom de la fonction dont on explore le corps, puis
         continue le parcours à l'intérieur via generic_visit. On restaure
         la fonction précédente en sortant, pour gérer correctement les
-        fonctions imbriquées (une fonction définie dans une autre).
+        fonctions imbriquées.
+
+        Args:
+            noeud: le nœud AST de type ast.FunctionDef rencontré pendant
+                le parcours.
+
+        Returns:
+            None. Modifie fonction_actuelle le temps
+            d'explorer le corps de la fonction, puis le restaure.
         """
         fonction_precedente = self.fonction_actuelle
         self.fonction_actuelle = node.name
@@ -37,6 +41,14 @@ class AnalyseurRecursion(ast.NodeVisitor):
 
         Si le nom de la fonction appelée correspond à la fonction
         actuellement explorée, c'est de la récursion directe.
+
+        Args:
+            noeud: le nœud AST de type ast.Call rencontré pendant le
+                parcours.
+
+        Returns:
+            None. Ajoute le nom de la fonction à fonctions_recursives si
+            une récursion directe est détectée.
         """
         if (
             isinstance(node.func, ast.Name)
@@ -54,6 +66,13 @@ class AnalyseurRecursion(ast.NodeVisitor):
             0 fonction récursive -> 100
             1 fonction récursive -> 50
             2 et + -> 0
+
+        Args:
+            Aucun (lit directement self.fonctions_recursives).
+
+        Returns:
+            int: un score entre 0 et 100, où 100 signifie aucune
+            récursion détectée, et 0 deux fonctions récursives ou plus.
         """
         nb_fonctions = len(self.fonctions_recursives)
         if nb_fonctions == 0:

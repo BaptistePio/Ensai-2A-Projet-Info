@@ -1,13 +1,9 @@
-"""ParsingAST : classe sans état chargée de transformer le code Python
-soumis (texte brut) en arbre syntaxique abstrait (AST), exploitable par
-les analyseurs du pipeline F3.
-"""
-
 import ast
 
 
 class ParsingAST:
-    """Transforme du code Python (str) en arbre AST."""
+    """classe sans état chargée de transformer le code Python
+    soumis (str) en arbre syntaxique abstrait (AST)."""
 
     def parse(self, code: str) -> ast.AST:
         """Parse le code source et retourne l'arbre AST correspondant.
