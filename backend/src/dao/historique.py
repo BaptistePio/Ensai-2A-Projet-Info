@@ -92,4 +92,3 @@ class Historique:
                         timestamp=row[4]
                     ))
         return results
-2. Les changements clés à noter :
