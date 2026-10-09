@@ -15,7 +15,7 @@ class LicenceRisque:
     @classmethod
     def licence_risque_ref(cls, seuil):
         """
-        Attributes
+        Parameters
         ----------
         seuil: int|float:
             seuil à partir duquel on considère qu'une licence est à risque

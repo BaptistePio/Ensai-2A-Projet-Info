@@ -11,4 +11,7 @@ class Severite:
         self.niveau_severite = niveau_severite
 
     def score(self):
+        """
+        Renvoie le score associé à la sévérité dans le mapping de référence
+        """
         return self.MAPPING_severite[self.niveau_severite]

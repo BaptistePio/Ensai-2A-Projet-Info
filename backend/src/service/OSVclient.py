@@ -13,15 +13,15 @@ class OSVClient:
     def interroger_api(self, package: Package):
         """ interroge l'API OSV grace à une requête HTML et retourne sa réponse au format json
 
-        Attributes
+        Parameters
         ----------
         package: Package
             Correspond au package dont on veut étudier les vulnérabilités et les licences.
 
         Return
         ------
-        Renvoie la réponse de la l'API OSV au format JSON.
-
+        dict
+            Renvoie la réponse de la l'API OSV au format JSON sous la forme d'un dictionnaire.
 
         """
 

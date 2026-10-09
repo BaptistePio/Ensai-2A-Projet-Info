@@ -15,10 +15,10 @@ class OSVService:
 
     def scanner(self, package: Package):
 
-         """ Va traiter la réponse retournée au format json dans OSVclient
+        """ Va traiter la réponse retournée au format json dans OSVclient
             Elle transforme la réponse en business objects de notre API
 
-        Attributes
+        Parameters
         ----------
         package: Package
             Correspond au package dont on veut étudier les vulnérabilités et les licences.
@@ -32,8 +32,11 @@ class OSVService:
         donnees = self.osv_client.interroger_api(package)
 
         vulnerabilites = []
+        #va contenir les objets métier [Vinerabilite(...), Vunerabilite(...)]
 
         for v in donnees.get("vulns", []):
+        #permet de parcourir les vulnerabilités, .get assure que cela ne plante pas
+        #second argument indique quoi retourner si la clé n'existe pas 
 
             id_cve = v.get("id")
 
