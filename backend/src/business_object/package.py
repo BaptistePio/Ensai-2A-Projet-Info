@@ -1,5 +1,6 @@
 from licence import Licence
 
+
 class Package:
     '''
     '''

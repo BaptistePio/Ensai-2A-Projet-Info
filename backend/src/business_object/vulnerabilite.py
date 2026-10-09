@@ -4,11 +4,12 @@ from severite import Severite
 
 
 class Vulnerabilite:
-    def __init__(self, id_CVE, packages: list[Package], description, risque: Risque, severite: Severite, version_corrigée):
+    def __init__(self, id_CVE, packages: list[Package], description, risque: Risque, severite: Severite, version_corrigee):
         self.id_CVE = id_CVE
         self.packages = packages
         self.description = description
         self.risque = risque
+        self.version_corrigee = version_corrigee
         self.severite = severite
 
     @staticmethod
