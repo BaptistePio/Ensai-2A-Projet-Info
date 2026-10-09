@@ -11,4 +11,4 @@ class Severite:
         self.niveau_severite = niveau_severite
 
     def score(self):
-        return self.SCORES_severite[self.niveau_severite]
+        return self.MAPPING_severite[self.niveau_severite]

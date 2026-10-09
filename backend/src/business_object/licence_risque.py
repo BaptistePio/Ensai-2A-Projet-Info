@@ -14,10 +14,37 @@ class LicenceRisque:
 
     @classmethod
     def licence_risque_ref(cls, seuil):
-        for key in cls.MAPPING_LICENCE:
-            if cls.MAPPING_LICENCE[key] >= seuil:
-                cls.licence_risque[key] = cls.MAPPING_LICENCE[key]
+        """
+        Attributes
+        ----------
+        seuil: int|float:
+            seuil à partir duquel on considère qu'une licence est à risque
+
+
+        Return
+        ------
+        dict{Licence: score: int }
+            renvoi un dictionnaire prenant comme clé les licences à risque et indique son score en attribut.
+        """
+        return {
+            licence: score
+            for licence, score in cls.MAPPING_LICENCE.items()
+            if score >= seuil
+            }
 
     @classmethod
     def obtenir_score(cls, licence):
+        """ Méthode de classe permettant d'obtenir le score de la licence considérée
+
+        Attributes
+        ----------
+        licence: Licence
+            Correspond au package dont on veut étudier les vulnérabilités et les licences.
+
+        Return
+        ------
+        int
+            renvoie le score de la licence selon le mapping de référence
+
+        """
         return cls.MAPPING_LICENCE.get(licence.id_spdx, 0)
