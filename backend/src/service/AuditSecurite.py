@@ -6,6 +6,9 @@ from vulnerabilite import Vulnerabilite
 
 
 class AuditSecurite:
+    """
+    Réalise un audit de sécurité concernant les vulnérabilités des packages et les risques des licences utilisées
+    """
 
     def __init__(self, id_audit):
         self.id = id_audit
