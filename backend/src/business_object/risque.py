@@ -20,7 +20,7 @@ class Risque:
             Renvoie le score du risque associé au package.
         """
 
-        return self.SCORES_RISQUE.get(self.niveau_risque,0) 
+        return self.SCORES_RISQUE.get(self.niveau_risque.upper(), 0)
 ##le .get permet de renvoyer none plutot qu'une erreur si la clé n'existe pas
 
 #Dans Audit Securité 
