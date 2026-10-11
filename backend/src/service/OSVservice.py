@@ -1,7 +1,5 @@
 from osv_client import OSVClient
 from package import Package
-from risque import Risque
-from severite import Severite
 from vulnerabilite import Vulnerabilite
 
 
@@ -32,11 +30,11 @@ class OSVService:
         donnees = self.osv_client.interroger_api(package)
 
         vulnerabilites = []
-        #va contenir les objets métier [Vinerabilite(...), Vunerabilite(...)]
+# va contenir les objets métier [Vinerabilite(...), Vunerabilite(...)]
 
+# permet de parcourir les vulnerabilités, .get assure que cela ne plante pas
+# second argument indique quoi retourner si la clé n'existe pas
         for v in donnees.get("vulns", []):
-        #permet de parcourir les vulnerabilités, .get assure que cela ne plante pas
-        #second argument indique quoi retourner si la clé n'existe pas 
 
             id_cve = v.get("id")
 
@@ -61,5 +59,7 @@ class OSVService:
 
         return vulnerabilites
 
-#méthodes construire_risque, version_corrigée et extraire_vulnerabilite seraient des méthodes privées de OSVService.
-#Elles servent uniquement à transformer les données brutes renvoyées par l'API OSV en objets de ton modèle métier.
+# méthodes construire_risque, version_corrigée et extraire_vulnerabilite seraient des méthodes
+# privées de OSVService.
+# Elles servent uniquement à transformer les données brutes renvoyées par l'API OSV en objets
+#  de ton modèle métier.
