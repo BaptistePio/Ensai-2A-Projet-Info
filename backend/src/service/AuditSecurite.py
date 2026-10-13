@@ -74,8 +74,7 @@ class AuditSecurite:
         """
 
         return sum(
-            v.risque.score_risque()
-            + v.severite.score()
+            v.severite.score()
             for v in self.vulnerabilites
         )
 
