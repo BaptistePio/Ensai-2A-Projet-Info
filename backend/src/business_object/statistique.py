@@ -89,7 +89,7 @@ class Statistique:
         L'activité par jour (dictionnaire) est convertie en tuple trié pour être hachable.
         """
         return (self._id_utilisateur,
-                self._nb_projet,
+                self._nb_soumissions,
                 self._score_vulnerabilite_moyen,
                 self._score_eco_moyen,
                 tuple(sorted(self._activite_par_jour.items())))
@@ -104,6 +104,6 @@ class Statistique:
 
     def __str__(self) -> str:
         return (f"Statistiques de : {self.id_utilisateur},"
-                f"Nombre de soumission(s): {self._nb_projet}, "
+                f"Nombre de soumission(s): {self._nb_soumissions}, "
                 f"vulnérabilité moyenne : {self._score_vulnerabilite_moyen:.2f}, "
                 f"éco moyen : {self._score_eco_moyen:.2f}")

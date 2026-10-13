@@ -50,7 +50,7 @@ class TestConstructeur(unittest.TestCase):
 
     def test_valeurs_a_zero_acceptees(self):
         s = Statistique(ID, 0, 0, 0)
-        self.assertEqual((s._nb_soumissions, s.score_vulnerabilite_moyen, s.score_eco_moyen),
+        self.assertEqual((s.nb_soumissions, s.score_vulnerabilite_moyen, s.score_eco_moyen),
                          (0, 0, 0))
 
     def test_id_vide_refuse(self):
@@ -101,8 +101,8 @@ class TestActiviteParJour(unittest.TestCase):
     def test_retourne_une_copie(self):
         s = stat()
         s.activite_par_jour.clear()
-        s.activite_par_jour[jour_7] = 42
-        self.assertEqual(s.activite_par_jour, {jour_6: 2, jour_8: 1})
+        s.activite_par_jour[jour_8] = 42
+        self.assertEqual(s.activite_par_jour, {jour_6: 2, jour_7: 1})
 
 
 class TestObtenirStatistiques(unittest.TestCase):
@@ -110,7 +110,7 @@ class TestObtenirStatistiques(unittest.TestCase):
         self.assertIsInstance(Statistique.obtenir_statistiques(ID, [journal()]), Statistique)
 
     def test_une_seule_entree(self):
-        s = Statistique.obtenir_statistiques(ID, [journal(vuln=7, eco=21)])
+        s = Statistique.obtenir_statistiques(ID, [journal(vulnerabilite=7, eco=21)])
         self.assertEqual(s.nb_soumissions, 1)
         self.assertEqual(s.score_vulnerabilite_moyen, 7)
         self.assertEqual(s.score_eco_moyen, 21)
@@ -121,18 +121,18 @@ class TestObtenirStatistiques(unittest.TestCase):
         self.assertEqual(Statistique.obtenir_statistiques(ID, entrees).nb_soumissions, 4)
 
     def test_moyennes_calculees_separement(self):
-        entrees = [journal(vuln=4, eco=10), journal(vuln=0, eco=6), journal(vuln=8, eco=2)]
+        entrees = [journal(vulnerabilite=4, eco=10), journal(vulnerabilite=0, eco=6), journal(vulnerabilite=8, eco=2)]
         s = Statistique.obtenir_statistiques(ID, entrees)
         self.assertEqual(s.score_vulnerabilite_moyen, 4.0)
         self.assertEqual(s.score_eco_moyen, 6.0)
 
     def test_moyenne_non_entiere(self):
-        entrees = [journal(vuln=1), journal(vuln=2), journal(vuln=2)]
+        entrees = [journal(vulnerabilite=1), journal(vulnerabilite=2), journal(vulnerabilite=2)]
         s = Statistique.obtenir_statistiques(ID, entrees)
         self.assertAlmostEqual(s.score_vulnerabilite_moyen, 5 / 3)
 
     def test_decision_influence_pas_les_moyennes(self):
-        entrees = [journal(vuln=2, decision=True), journal(vuln=4, decision=False)]
+        entrees = [journal(vulnerabilite=2, decision=True), journal(vulnerabilite=4, decision=False)]
         self.assertEqual(
             Statistique.obtenir_statistiques(ID, entrees).score_vulnerabilite_moyen, 3)
 
@@ -192,9 +192,9 @@ class TestObtenirStatistiques(unittest.TestCase):
         self.assertEqual(entrees, copie)
 
     def test_resultat_complet(self):
-        entrees = [journal(vuln=4, eco=10, ts=T),
-                   journal(vuln=0, eco=6, ts=T + timedelta(hours=2)),
-                   journal(vuln=8, eco=2, ts=T + timedelta(days=3))]
+        entrees = [journal(vulnerabilite=4, eco=10, ts=T),
+                   journal(vulnerabilite=0, eco=6, ts=T + timedelta(hours=2)),
+                   journal(vulnerabilite=8, eco=2, ts=T + timedelta(days=1))]
         self.assertEqual(Statistique.obtenir_statistiques(ID, entrees), stat())
 
 
@@ -253,13 +253,12 @@ class TestCle(unittest.TestCase):
 
 
 class TestStr(unittest.TestCase):
-    def test_format(self):
-        self.assertEqual(
-            str(stat()),
-            "Statistiques de : utilisateur_test,"
-            "Nombre de soumission(s): 3, "
-            "vulnérabilité moyenne : 4.00,"
-            "éco moyen : 6.00")
+    def test_format(self): self.assertEqual(
+        str(stat()),
+        "Statistiques de : utilisateur_test,"
+        "Nombre de soumission(s): 3, "
+        "vulnérabilité moyenne : 4.00, "
+        "éco moyen : 6.00")
 
     def test_moyennes_arrondies_deux_decimales(self):
         s = stat(score_vulnerabilite_moyen=5 / 3, score_eco_moyen=0.004)
