@@ -18,10 +18,10 @@ class Statistique:
         if not id_utilisateur:
             raise ValueError("id_utilisateur ne peut pas être vide")
         if nb_soumissions < 0 or score_vulnerabilite_moyen < 0 or score_eco_moyen < 0:
-            raise ValueError("les soumissions de code et les scores moyens doivent être positifs ou nuls")
+            raise ValueError("le code soumis et les scores moyens doivent être positifs ou nuls")
 
         self._id_utilisateur = id_utilisateur
-        self._nb_projet = nb_soumissions
+        self._nb_soumissions = nb_soumissions
         self._score_vulnerabilite_moyen = score_vulnerabilite_moyen
         self._score_eco_moyen = score_eco_moyen
         self._activite_par_jour = dict(activite_par_jour or {})
@@ -52,7 +52,7 @@ class Statistique:
                              entrees: list[Journalisation]) -> Statistique:
         """
         Calcule les statistiques d'un utilisateur à partir de ses entrées de journal
-        Chaque entrée compte pour une soumission. 
+        Chaque entrée compte pour une soumission.
         Les jours sont ceux de la date UTC (s'adapte à la zone où l'utilisateur se trouve).
         Sans entrée, tout vaut 0 (et l'activité est vide).
         """
@@ -83,8 +83,16 @@ class Statistique:
         )
 
     def _cle(self) -> tuple:
-        return (self._id_utilisateur, self._nb_projet, self._score_vulnerabilite_moyen,
-                self._score_eco_moyen, tuple(sorted(self._activite_par_jour.items())))
+        """
+        Renvoie un tuple regroupant tous les champs de la statistique, utilisé par
+        __eq__ et __hash__ pour qu'ils comparent les mêmes valeurs.
+        L'activité par jour (dictionnaire) est convertie en tuple trié pour être hachable.
+        """
+        return (self._id_utilisateur,
+                self._nb_projet,
+                self._score_vulnerabilite_moyen,
+                self._score_eco_moyen,
+                tuple(sorted(self._activite_par_jour.items())))
 
     def __eq__(self, autre: object) -> bool:
         if not isinstance(autre, Statistique):
@@ -95,7 +103,7 @@ class Statistique:
         return hash(self._cle())
 
     def __str__(self) -> str:
-        return (f"Statistiques de : {self.id_utilisateur} : "
+        return (f"Statistiques de : {self.id_utilisateur},"
                 f"Nombre de soumission(s): {self._nb_projet}, "
                 f"vulnérabilité moyenne : {self._score_vulnerabilite_moyen:.2f}, "
                 f"éco moyen : {self._score_eco_moyen:.2f}")
