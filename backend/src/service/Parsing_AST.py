@@ -18,3 +18,4 @@ class ParsingAST:
             SyntaxError: si le code soumis n'est pas un code Python valide.
         """
         return ast.parse(code)
+
