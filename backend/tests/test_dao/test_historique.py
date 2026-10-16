@@ -1,15 +1,16 @@
 import unittest
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 from unittest.mock import patch
 
-from business_object.journalisation import Journalisation
 from dao.historique_dao import Historique
+
+from business_object.journalisation import Journalisation
 
 # Chemin où le DAO a importé get_connection (à adapter si le fichier change de nom)
 CIBLE = "dao.connexion_bdd_ex.connection"
 #Est ce la bonne fonction a relié ?
 
-T = datetime(2026, 10, 6, 17, 10, 8, tzinfo=timezone.utc)
+T = datetime(2026, 10, 6, 17, 10, 8, tzinfo=UTC)
 T2 = T + timedelta(days=1)
 
 
@@ -83,9 +84,9 @@ class TestEnregistrerJournal(BaseTestDAO):
         self.assertIsNone(self.enregistrer())
 
     def test_timestamp_none_utilise_la_date_du_moment_en_utc(self):
-        avant = datetime.now(timezone.utc)
+        avant = datetime.now(UTC)
         self.enregistrer(timestamp=None)
-        apres = datetime.now(timezone.utc)
+        apres = datetime.now(UTC)
         _, params = self.requete_et_params()
         self.assertTrue(avant <= params[1] <= apres)
 

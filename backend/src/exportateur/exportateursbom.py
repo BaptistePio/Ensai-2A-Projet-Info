@@ -1,6 +1,4 @@
 
-import json
-import uuid
 from typing import Any
 
 from business_object.ComposanteSBOM import ComposanteSBOM

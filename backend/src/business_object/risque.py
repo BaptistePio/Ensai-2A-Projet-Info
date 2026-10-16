@@ -23,5 +23,5 @@ class Risque:
         return self.SCORES_RISQUE.get(self.niveau_risque.upper(), 0)
 ##le .get permet de renvoyer none plutot qu'une erreur si la clé n'existe pas
 
-#Dans Audit Securité 
+#Dans Audit Securité
 #score_total = (vulnerabilite.risque.score_risque() + vulnerabilite.severite.score()+ licence.score_licence())

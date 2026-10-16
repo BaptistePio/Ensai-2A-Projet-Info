@@ -1,8 +1,7 @@
 import hashlib
 
-from fastapi import Header, HTTPException
-
 from dao.player_dao import PlayerDao
+from fastapi import Header, HTTPException
 
 
 def hash_password(password: str, salt: str = "") -> str:

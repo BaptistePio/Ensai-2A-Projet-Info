@@ -1,8 +1,8 @@
 from __future__ import annotations
- 
-from datetime import datetime, timezone
+
+from datetime import UTC, datetime
 from typing import Any
- 
+
 
 class Journalisation:
     """
@@ -15,29 +15,29 @@ class Journalisation:
             raise ValueError("id_utilisateur ne peut pas être vide")
         if score_vulnerabilite < 0 or score_eco < 0:
             raise ValueError("Les scores doivent être positifs ou nuls")
- 
+
         self._id_utilisateur = id_utilisateur
         self._score_vulnerabilite = score_vulnerabilite
         self._score_eco = score_eco
         self._decision = decision
-        self._timestamp = timestamp or datetime.now(timezone.utc)
+        self._timestamp = timestamp or datetime.now(UTC)
 
     @property
     def id_utilisateur(self) -> str:
         return self._id_utilisateur
- 
+
     @property
     def score_vulnerabilite(self) -> int:
         return self._score_vulnerabilite
- 
+
     @property
     def score_eco(self) -> int:
         return self._score_eco
- 
+
     @property
     def decision(self) -> bool:
         return self._decision
- 
+
     @property
     def timestamp(self) -> datetime:
         return self._timestamp
@@ -74,14 +74,14 @@ class Journalisation:
         if not isinstance(autre, Journalisation):
             return NotImplemented
         return self.vers_dict() == autre.vers_dict()
-    
+
     def __hash__(self) -> int:
         return hash((self._id_utilisateur,
                      self._score_vulnerabilite,
                      self._score_eco,
                      self._decision,
                      self._timestamp.isoformat()))
- 
+
     def __str__(self) -> str:
         statut = "Certifié" if self._decision else "Refusé"
         return (

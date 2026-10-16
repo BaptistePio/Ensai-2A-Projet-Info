@@ -1,9 +1,8 @@
 import os
 import secrets
 
-from fastapi import HTTPException
-
 from dao.player_dao import PlayerDao
+from fastapi import HTTPException
 from utils.log_utils import log
 
 

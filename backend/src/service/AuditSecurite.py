@@ -1,7 +1,6 @@
 
 from datetime import datetime
 
-from business_object.package import Package
 from business_object.vulnerabilite import Vulnerabilite
 
 

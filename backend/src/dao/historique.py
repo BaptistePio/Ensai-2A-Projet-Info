@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from datetime import datetime
+
 from business_object.journalisation import Journalisation
-from dao.connexion_bdd_ex import get_connection 
+from dao.connexion_bdd_ex import get_connection
+
 
 class Historique:
     """

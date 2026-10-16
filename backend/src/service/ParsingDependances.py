@@ -1,4 +1,3 @@
-from business_object.risque import Risque
 from business_object.severite import Severite
 from business_object.vulnerabilite import Vulnerabilite
 

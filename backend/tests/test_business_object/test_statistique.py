@@ -3,13 +3,13 @@
 Lancer avec :  pytest tests/test_business_object/test_statistique.py -v
 """
 import unittest
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta, timezone
 
 from business_object.journalisation import Journalisation
 from business_object.statistique import Statistique
 
 ID = "utilisateur_test"
-T = datetime(2026, 10, 6, 17, 10, 8, tzinfo=timezone.utc)
+T = datetime(2026, 10, 6, 17, 10, 8, tzinfo=UTC)
 jour_6 = date(2026, 10, 6)
 jour_7 = date(2026, 10, 7)
 jour_8 = date(2026, 10, 8)
@@ -148,8 +148,8 @@ class TestObtenirStatistiques(unittest.TestCase):
                          {jour_6: 2, jour_8: 1})
 
     def test_changement_de_jour_a_minuit_utc(self):
-        avant = datetime(2026, 10, 6, 23, 59, 59, tzinfo=timezone.utc)
-        apres = datetime(2026, 10, 7, 0, 0, 0, tzinfo=timezone.utc)
+        avant = datetime(2026, 10, 6, 23, 59, 59, tzinfo=UTC)
+        apres = datetime(2026, 10, 7, 0, 0, 0, tzinfo=UTC)
         s = Statistique.obtenir_statistiques(ID, [journal(ts=avant), journal(ts=apres)])
         self.assertEqual(s.activite_par_jour, {jour_6: 1, jour_7: 1})
 

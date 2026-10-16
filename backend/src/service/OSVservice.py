@@ -1,8 +1,5 @@
-from .ParsingDependances import ParsingDependances
-from .OSVclient import OSVClient
 
-from business_object.package import Package
-from business_object.vulnerabilite import Vulnerabilite
+from .ParsingDependances import ParsingDependances
 
 
 class OSVService:

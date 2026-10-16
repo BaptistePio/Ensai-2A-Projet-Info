@@ -3,7 +3,6 @@ from pathlib import Path
 from unittest import mock
 
 import dotenv
-
 from dao.db_connection import DBConnection
 from dao.player_dao import PlayerDao
 from utils.log_utils import get_logger, log

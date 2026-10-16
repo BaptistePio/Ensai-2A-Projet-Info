@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, timezone
+from datetime import UTC, date
 
 from business_object.journalisation import Journalisation
 
@@ -66,7 +66,7 @@ class Statistique:
         for entree in entrees:
             instant = entree.timestamp
             if instant.tzinfo is not None:
-                instant = instant.astimezone(timezone.utc)
+                instant = instant.astimezone(UTC)
             jour = instant.date()
             activite[jour] = activite.get(jour, 0) + 1
 
