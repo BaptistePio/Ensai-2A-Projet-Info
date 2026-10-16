@@ -1,4 +1,4 @@
-from licence import Licence
+from .licence import Licence
 
 
 class Package:

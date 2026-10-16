@@ -1,4 +1,4 @@
-from licence_risque import LicenceRisque
+from .licence_risque import LicenceRisque
 
 
 class Licence:

@@ -1,8 +1,8 @@
 
 from datetime import datetime
 
-from package import Package
-from vulnerabilite import Vulnerabilite
+from business_object.package import Package
+from business_object.vulnerabilite import Vulnerabilite
 
 
 class AuditSecurite:

@@ -1,5 +1,3 @@
-from licence import Licence
-
 
 class LicenceRisque:
     """
@@ -37,7 +35,7 @@ class LicenceRisque:
         licences_faibles = {}
         licences_moyennes = {}
         licences_critiques = {}
-        for licence, score in cls.MAPPING_LICENCE.items()
+        for licence, score in cls.MAPPING_LICENCE.items():
             if score >= seuil:
                 licences_critiques[licence] = score
             elif score < seuil:

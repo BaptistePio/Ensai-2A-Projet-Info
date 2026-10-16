@@ -1,6 +1,6 @@
-from risque import Risque
-from severite import Severite
-from vulnerabilite import Vulnerabilite
+from business_object.risque import Risque
+from business_object.severite import Severite
+from business_object.vulnerabilite import Vulnerabilite
 
 
 class ParsingDependances:

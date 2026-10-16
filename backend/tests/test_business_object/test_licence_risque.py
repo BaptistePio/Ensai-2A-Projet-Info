@@ -1,4 +1,4 @@
-from licence_risque import LicenceRisque
+from business_object.licence_risque import LicenceRisque
 
 
 def test_obtenir_score_gpl3():

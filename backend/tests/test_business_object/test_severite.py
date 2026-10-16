@@ -1,4 +1,4 @@
-from severite import Severite
+from business_object.severite import Severite
 
 
 def test_score_critical():

@@ -1,4 +1,4 @@
-from risque import Risque
+from business_object.risque import Risque
 
 
 def test_score_high():

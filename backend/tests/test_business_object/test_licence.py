@@ -1,4 +1,4 @@
-from licence import Licence
+from business_object.licence import Licence
 
 
 def test_score_licence():

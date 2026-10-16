@@ -1,5 +1,5 @@
-from package import Package
-from severite import Severite
+from .package import Package
+from .severite import Severite
 
 
 class Vulnerabilite:

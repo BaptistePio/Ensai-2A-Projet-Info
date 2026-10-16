@@ -1,5 +1,5 @@
 import requests
-from package import Package
+from business_object.package import Package
 
 
 class OSVClient:
