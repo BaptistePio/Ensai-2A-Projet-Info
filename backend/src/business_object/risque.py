@@ -25,3 +25,9 @@ class Risque:
 
 #Dans Audit Securité
 #score_total = (vulnerabilite.risque.score_risque() + vulnerabilite.severite.score()+ licence.score_licence())
+
+    def __repr__(self):
+        return (
+            f"Risque(niveau_risque='{self.niveau_risque}', "
+            f"score={self.score_risque()})"
+        )

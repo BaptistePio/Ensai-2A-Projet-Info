@@ -5,17 +5,6 @@ from business_object.severite import Severite
 from business_object.vulnerabilite import Vulnerabilite
 
 
-@pytest.fixture
-def liste_vulnerabilites():
-
-    return [
-        Vulnerabilite("CVE-1", [], "desc", Risque("HIGH"), Severite("CRITICAL"), "1.0"),
-        Vulnerabilite("CVE-2", [], "desc", Risque("HIGH"), Severite("HIGH"), "1.0"),
-        Vulnerabilite("CVE-3", [], "desc", Risque("LOW"), Severite("MEDIUM"), "1.0"),
-        Vulnerabilite("CVE-4", [], "desc", Risque("LOW"), Severite("LOW"), "1.0"),
-    ]
-
-
 def test_nb_vulnerabilites_critiques(liste_vulnerabilites):
 
     assert Vulnerabilite.nb_vulnerabilites_critiques(liste_vulnerabilites) == 1
@@ -34,6 +23,27 @@ def test_nb_vulnerabilites_moyennes(liste_vulnerabilites):
 def test_nb_vulnerabilites_faibles(liste_vulnerabilites):
 
     assert Vulnerabilite.nb_vulnerabilites_faibles(liste_vulnerabilites) == 1
+
+
+def test_id_vulnerabilite(vulnerabilite_high):
+    assert vulnerabilite_high.id == "GHSA-1234"
+
+
+def test_description_vulnerabilite(vulnerabilite_high):
+    assert vulnerabilite_high.description == "Vulnérabilité de test"
+
+
+def test_version_corrigee(vulnerabilite_high):
+    assert vulnerabilite_high.version_corrigee == "4.2.1"
+
+
+def test_severite_vulnerabilite(vulnerabilite_high):
+    assert vulnerabilite_high.severite.niveau_severite == "HIGH"
+
+
+def test_packages_vulnerabilite(vulnerabilite_high):
+    assert len(vulnerabilite_high.packages) == 1
+    assert vulnerabilite_high.packages[0].nom == "django"
 
 
 # on utilise des fixtures si l'objet est complexe a construire: Package, Licence Vulnerabilite

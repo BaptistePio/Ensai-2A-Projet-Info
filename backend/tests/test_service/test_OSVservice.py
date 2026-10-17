@@ -1,6 +1,7 @@
 from unittest.mock import Mock, patch
 
 import pytest
+import requests
 
 from business_object.package import Package
 from service.OSVservice import OSVService
@@ -18,7 +19,7 @@ def package_test():
 
 def test_scanner_appelle_osvclient(package_test):
     """
-    test si la methode statique scanner fait bien appelle à OSVClient 
+    test si la methode statique scanner fait bien appelle à OSVClient
     """
 
     client_mock = Mock()
@@ -98,3 +99,18 @@ def test_scanner_aucune_vulnerabilite(mock_parser, package_test):
 
     assert resultat == []
 
+
+url = "https://api.osv.dev/v1/query"
+
+payload = {
+    "version": "2.25.1",
+    "package": {
+        "name": "requests",
+        "ecosystem": "PyPI"
+    }
+}
+
+response = requests.post(url, json=payload)
+
+print(response.status_code)
+print(response.json())

@@ -1,11 +1,10 @@
-
 class LicenceRisque:
     """
-    Classe permet de réferencer les licences considérées comme à risque selon un seuil choisi.
+    Classe permettant de réferencer les licences considérées comme à risque selon un seuil choisi.
 
-    Les scores de ces licences à risque sont utilisés par la classe AuditSecurite pour évaluer l
-    les risques juridiques
-    (la classe additionne les score pour évaluer une partie global de sécurité)
+    Les scores de ces licences à risque sont utilisés par la classe AuditSecurite pour évaluer
+    les risques associées aux licences utilisées par le code soumis
+    (la classe additionne les scores pour évaluer une partie global de sécurité)
     """
 
     MAPPING_LICENCE = {"AGPL-3.0": 4,
@@ -16,7 +15,6 @@ class LicenceRisque:
     "MIT": 0,
     "BSD-3-Clause": 0
     }
-
 
     @classmethod
     def licence_risque_ref(cls, seuil):
@@ -32,6 +30,7 @@ class LicenceRisque:
         dict[str: int]
             renvoi un dictionnaire dont les clés sont les licences à risque et indique leur score en attribut.
         """
+
         licences_faibles = {}
         licences_moyennes = {}
         licences_critiques = {}
@@ -40,10 +39,14 @@ class LicenceRisque:
                 licences_critiques[licence] = score
             elif score < seuil:
                 if score == 0 or score == 1:
-                    licences_faible[licence] = score
+                    licences_faibles[licence] = score
                 else:
                     licences_moyennes[licence] = score
-        return list[licences_critiques, licences_moyennes, licences_faible]
+        return {"critiques": licences_critiques,
+        "moyennes": licences_moyennes,
+        "faibles": licences_faibles
+        }
+
 
     @classmethod
     def obtenir_score(cls, licence):
@@ -60,4 +63,10 @@ class LicenceRisque:
             renvoie le score de la licence selon le mapping de référence
 
         """
-        return cls.MAPPING_LICENCE.get(licence.id_spdx, 0)
+        if licence.idspdx not in cls.MAPPING_LICENCE:
+            cls.MAPPING_LICENCE[licence.idspdx] = 0
+        return cls.MAPPING_LICENCE.get(licence.idspdx, 0)
+
+# pas besoin de repr ici. 
+# LicenceRisque est une classe utilitaire qui ne connait pas Licence
+

@@ -9,3 +9,22 @@ class Package:
         self.version = version
         self.ecosysteme = ecosysteme
         self.licence = licence
+
+    def __repr__(self):
+        return (
+            f"Package("
+            f"nom='{self.nom}', "
+            f"version='{self.version}', "
+            f"ecosysteme='{self.ecosysteme}', "
+            f"licence={self.licence})"
+        )
+
+
+p = Package(
+    nom="django",
+    version="4.2.0",
+    ecosysteme="PyPI",
+    licence=Licence("BSD-3-Clause", "BSD", True)
+    )
+
+print(p)
