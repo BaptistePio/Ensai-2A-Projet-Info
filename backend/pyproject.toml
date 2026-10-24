@@ -15,6 +15,7 @@ dependencies = [
     "requests",
     "regex",
     "uvicorn",
+    "cryptography>=50.0.2",
 ]
 
 # Dependencies used only for development, not for runtime
